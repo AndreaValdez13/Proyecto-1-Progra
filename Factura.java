@@ -31,6 +31,10 @@ public class Factura {
     double [] Total;
     int usuario;
     int contraseña;
+    double creditoN;
+    double efectivo;
+    double tarjeta;
+    double cheque;
     
     public Factura(){
         this.idCliente = new int [10];
@@ -49,6 +53,10 @@ public class Factura {
         this.Total = new double [10];
         this. usuario = 0;
         this.contraseña = 0;
+        this.creditoN = 0;
+        this.efectivo = 0;
+        this.tarjeta = 0;
+        this.cheque = 0;
     }
     
     public void Login(){
@@ -80,7 +88,8 @@ public class Factura {
             System.out.println("1. Facturas");
             System.out.println("2. Clientes");
             System.out.println("3. Productos");
-            System.out.println("4. Salir");
+            System.out.println("4. Corte de Caja");
+            System.out.println("5. Salir");
             opcion = in.nextInt();
             
                 if(opcion == 1){
@@ -94,8 +103,10 @@ public class Factura {
                 }else if(opcion == 3){
                     MenuP();
                 }else if (opcion == 4){
+                    CorteCaja();
+                }else if (opcion == 5){
                     exit (0);
-                }   
+                }
     }
     
     public void MenuC(){
@@ -286,10 +297,11 @@ public class Factura {
     }
     
     public void DetalleFact(){
-        int opc, i, foo;
+        int opc, i, foo, fp;
         i = 0;
         foo = 0;
         opc = 0;
+        fp = 0;
         System.out.println("\nIntroduzca idProducto para facturacion:");
         i = in.nextInt();
         for(int p =0; p < idProducto.length; p++){
@@ -303,25 +315,53 @@ public class Factura {
             }
         }
         
-        for(int s = 0; s < 10; s++){
+        for(int s = 0; s <subtotal.length; s++){
             System.out.println("\nCantidad: ");
             opc = in.nextInt();
             cantidad [s] = opc;
             subtotal[s] = cantidad [s] * PrecioProducto[s];
-            System.out.println("Total: " + subtotal[s]);
-          
-            System.out.println("\n¡Desea finalizar factura: Presione 0\n Continuar: Presione 1\n");
-            foo = in.nextInt();
-                if(foo == 0){
-                    for(int j = 0; j<subtotal.length;j++){
-                    Total[i] += subtotal[j];
-                }
+            System.out.println("Total: " + subtotal[s]);   
+                    Total[i] = subtotal[s];
+                
                     System.out.println("\nEl total de su factura es: Q" + Total[i]);
+                    System.out.println("Seleccione Forma de Pago:\n1.Efectivo\n2.Tarjeta de Credito\n3.Cheque ");
+                    fp = in.nextInt();
+                        if(fp == 1){
+                            efectivo += Total[i];
+                        } else if(fp == 2){
+                            tarjeta += Total[i];
+                            creditoN = creditoD[s] - Total[i];
+                            creditoD[s] = creditoN;
+                            System.out.println("El nuevo credito del cliente es: Q" + creditoN);
+                        } else if (fp == 3){
+                            cheque += Total [i];
+                        }
+                    System.out.println("Pago Realizado con Exito\n");
+                    System.out.println("Presione 0 para ir a menu");
+                    opc = in.nextInt();
+                    if(opc == 0){
                     Menu();
-                }else if(foo == 1){
-                    EncaClientes();
-                }   
+                    }
+                    }
+    }
+    
+    public void CorteCaja (){
+        int salir;
+        salir = 0;
+         System.out.println("***CORTE DE CAJA***\n");
+         System.out.println("Efectivo: Q" + efectivo);
+        System.out.println("---------------------\n");     
+        System.out.println("Tarjeta de Credito: Q" + tarjeta);
+        System.out.println("---------------------\n");
+        System.out.println("Cheque: Q" + cheque);
+        System.out.println("---------------------\n");
+        System.out.println("Cantidad a depositar: Q" + efectivo/2);
+        System.out.println("Presione 1 para salir: ");
+        salir = in.nextInt();
+        if (salir == 1) {
+            exit (0);
         }
+         
     }
  
 }
