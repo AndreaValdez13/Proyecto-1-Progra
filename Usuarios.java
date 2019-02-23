@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Información;
+package Informacion;
 import LaTiendita.MenuPrincipal;
 import java.util.Scanner;
 /**
@@ -14,16 +14,15 @@ public class Usuarios {
     int usuario;
     int contraseña;
     public Scanner in = new Scanner(System.in);
-
+    private MenuPrincipal LaT;
+    
     public Usuarios() {
         this.usuario = usuario;
         this.contraseña = contraseña;
+        LaT = new MenuPrincipal();
     }
     
     public void Login(){
-        MenuPrincipal LaT;
-        LaT = new MenuPrincipal();
-        
         System.out.println("******BIENVENIDO*******\n");
         System.out.println("Ingrese su usuario");
         usuario = in.nextInt();
